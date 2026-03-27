@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motion Studio — Explainer Videos & Motion Graphics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --p1: #4A00B4;
+      --p2: #7B2FBE;
+      --p3: #9B3DCA;
+      --p4: #C084FC;
+      --p5: #EDE9FE;
+      --p6: #F8F4FF;
+      --white: #FFFFFF;
+      --bg:    #FFFFFF;
+      --bg2:   #FAFAFA;
+      --bg3:   #F8F4FF;
+      --line:  #EAE7F5;
+      --muted: #8A87A0;
+      --dark:  #1A0A2E;
+      --navy:  #07093D;
+      --gray1: #FAFAFA;
+      --gray2: #EAE7F5;
+      --gray3: #D4D0EA;
+      --gray4: #8A87A0;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══ NAV ══ */
+    nav {
+      position: fixed; top:32px; left:0; right:0; z-index:100;
+      height: 68px; padding: 0 5%;
+      display: flex; align-items:center; justify-content:space-between;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 1px 16px rgba(74,0,180,.06);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 24px rgba(74,0,180,.1); }
+    .nav-logo { display:flex; align-items:center; text-decoration:none; flex-shrink:0; }
+    .nav-links { display:flex; gap:2px; align-items:center; list-style:none; }
+    .nav-links a {
+      text-decoration:none; font-size:.875rem; font-weight:500; letter-spacing:.005em;
+      color:var(--muted); padding:8px 14px; border-radius:8px; transition:background .15s, color .15s;
+    }
+    .nav-links a:hover { background:var(--bg3); color:var(--p2); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--p1), var(--p2)) !important;
+      color:#fff !important; font-weight:600 !important;
+      padding:9px 22px !important; border-radius:100px !important;
+      box-shadow:0 2px 12px rgba(74,0,180,.25);
+      transition:transform .15s, box-shadow .15s !important;
+    }
+    .nav-cta:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(74,0,180,.35) !important; color:#fff !important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--dark); border-radius:2px; }
+    .mobile-menu {
+      display:none; position:fixed; top:100px; left:0; right:0;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      padding:18px 5%; flex-direction:column; gap:4px; z-index:99;
+      box-shadow:0 8px 24px rgba(74,0,180,.08);
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { text-decoration:none; color:var(--dark); font-weight:500; font-size:.95rem; padding:11px 0; border-bottom:1px solid var(--line); }
+
+    /* ══ TOP BAR ══ */
+    .top-bar {
+      position: fixed; top:0; left:0; right:0; z-index:101;
+      background: linear-gradient(135deg, var(--p1), var(--p2));
+      padding: 5px 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .7rem; color: #fff;
+      box-shadow: 0 1px 8px rgba(74,0,180,.12);
+      gap: 16px; flex-wrap: nowrap; height: 32px;
+    }
+    .top-bar-left { display:flex; gap:18px; align-items:center; flex-wrap:nowrap; }
+    .top-bar-item { display:flex; align-items:center; gap:5px; font-size:.7rem; font-weight:500; color:rgba(255,255,255,.98); white-space:nowrap; }
+    .top-bar-item svg { width:14px; height:14px; flex-shrink:0; }
+    .top-bar-right { display:flex; gap:14px; align-items:center; flex-wrap:nowrap; }
+    .top-bar-contact { display:flex; align-items:center; gap:5px; font-size:.7rem; font-weight:500; color:rgba(255,255,255,.98); text-decoration:none; transition:opacity .2s; white-space:nowrap; }
+    .top-bar-contact:hover { opacity:.8; }
+    .top-bar-contact svg { width:14px; height:14px; flex-shrink:0; }
+    @media(max-width:1200px){
+      .top-bar { padding:4px 5%; font-size:.65rem; gap:14px; }
+      .top-bar-left { gap:14px; }
+      .top-bar-right { gap:10px; }
+      .top-bar-item,.top-bar-contact { font-size:.65rem; }
+    }
+    @media(max-width:768px){
+      .top-bar { padding:4px 5%; font-size:.6rem; height:auto; }
+      .top-bar-left { display:none; }
+      .top-bar-right { width:100%; justify-content:center; gap:8px; }
+      .top-bar-item,.top-bar-contact { font-size:.6rem; }
+    }
+
+    /* ══ HERO ══ */
+    .hero {
+      min-height:100vh; display:flex; align-items:center;
+      padding:120px 5% 70px; background:var(--white); position:relative; overflow:hidden; margin-top:100px;
+    }
+    .hero-grid { position:absolute; inset:0; pointer-events:none; background-image:radial-gradient(rgba(74,0,180,.055) 1px, transparent 1px); background-size:36px 36px; }
+    .hero-blob { position:absolute; border-radius:50%; filter:blur(120px); pointer-events:none; }
+    .hero-blob-1 { width:600px;height:600px;background:var(--p3);opacity:.09;top:-160px;right:-80px; }
+    .hero-blob-2 { width:420px;height:420px;background:var(--p4);opacity:.07;bottom:-80px;left:0; }
+    .hero-inner { position:relative; max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; width:100%; }
+    .hero-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:.72rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--p2); margin-bottom:20px; }
+    .hero-eyebrow::before { content:''; width:18px; height:1.5px; background:var(--p2); border-radius:2px; }
+    .hero h1 { font-size:clamp(2.2rem,5vw,3.8rem); font-weight:800; line-height:1.06; letter-spacing:-.04em; color:var(--dark); margin-bottom:28px; }
+    .hero h1 .purple { background:linear-gradient(135deg, var(--p1) 0%, var(--p2) 50%, var(--p3) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero-list { list-style:none; margin-bottom:36px; }
+    .hero-list li { font-size:.96rem; font-weight:400; line-height:1.5; color:var(--muted); padding:5px 0 5px 20px; position:relative; }
+    .hero-list li::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:6px; height:6px; border-radius:50%; background:var(--p2); }
+    .hero-btns { display:flex; gap:12px; flex-wrap:wrap; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, var(--p1), var(--p2)); color:#fff; padding:13px 26px; border-radius:100px; font-size:.875rem; font-weight:600; text-decoration:none; transition:transform .15s, box-shadow .15s; box-shadow:0 4px 16px rgba(74,0,180,.28); }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(74,0,180,.38); }
+    .btn-outline { display:inline-flex; align-items:center; gap:8px; background:transparent; color:var(--p2); padding:13px 24px; border-radius:100px; font-size:.875rem; font-weight:600; text-decoration:none; border:1.5px solid rgba(74,0,180,.28); transition:border-color .15s, background .15s; }
+    .btn-outline:hover { border-color:var(--p2); background:var(--bg3); }
+    .hero-visual { animation:fadeUp .6s ease .15s both; }
+    .hero-video-wrap { position:relative; width:100%; border-radius:20px; overflow:hidden; background:var(--bg3); aspect-ratio:16/10; box-shadow:0 20px 60px rgba(74,0,180,.12), 0 0 0 1px var(--line); }
+    .hero-video-wrap video { width:100%;height:100%;object-fit:cover;display:block; }
+    .video-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:linear-gradient(135deg,rgba(74,0,180,.08),rgba(155,61,202,.12)); cursor:pointer; transition:opacity .3s; }
+    .video-overlay.hidden { opacity:0; pointer-events:none; }
+    .video-play-ring { width:76px; height:76px; border-radius:50%; background:linear-gradient(135deg, var(--p1), var(--p2)); border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(74,0,180,.35); transition:transform .2s, box-shadow .2s; }
+    .video-overlay:hover .video-play-ring { transform:scale(1.1); box-shadow:0 14px 40px rgba(74,0,180,.45); }
+    .video-overlay-text { text-align:center; color:var(--dark); }
+    .video-overlay-text strong { display:block; font-size:.96rem; font-weight:700; }
+    .video-overlay-text span { font-size:.78rem; color:var(--muted); }
+
+    /* ══ ABOUT ══ */
+    .about-intro-section { background:var(--white); padding:96px 5%; }
+    .about-intro-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1.2fr .8fr; gap:80px; align-items:start; }
+    .about-intro-text h2 { margin-bottom:20px; }
+    .about-intro-text p { font-size:.96rem; line-height:1.78; color:var(--muted); }
+    .about-stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .about-stat { background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:22px; }
+    .about-stat .big-num { font-size:1.85rem; font-weight:800; letter-spacing:-.04em; background:linear-gradient(135deg, var(--p1), var(--p3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .about-stat .small-label { font-size:.76rem; font-weight:500; color:var(--muted); margin-top:4px; }
+
+    /* ══ COMMON ══ */
+    section { padding:92px 5%; }
+    .section-label { display:inline-block; font-size:.67rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--p2); margin-bottom:10px; }
+    .section-title { font-size:clamp(1.7rem,3.5vw,2.65rem); font-weight:800; letter-spacing:-.04em; line-height:1.1; color:var(--dark); margin-bottom:12px; }
+    .section-sub { font-size:.96rem; color:var(--muted); line-height:1.72; max-width:520px; }
+    .section-head { margin-bottom:52px; }
+
+    /* ══ SERVICES ══ */
+    #services { background:var(--bg2); }
+    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:1200px; margin:0 auto; }
+    .service-card { border-radius:16px; padding:28px; border:1px solid var(--line); background:var(--white); transition:transform .22s, box-shadow .22s, border-color .22s; position:relative; overflow:hidden; }
+    .service-card::after { content:''; position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, var(--p1), var(--p3)); transform:scaleX(0); transform-origin:left; transition:transform .22s; }
+    .service-card:hover { transform:translateY(-5px); box-shadow:0 18px 44px rgba(91,33,182,.1); border-color:rgba(124,58,237,.22); }
+    .service-card:hover::after { transform:scaleX(1); }
+    .service-icon { width:46px;height:46px;border-radius:11px;background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--p2); }
+    .service-card h3 { font-size:.96rem; font-weight:700; color:var(--dark); margin-bottom:8px; }
+    .service-card p { font-size:.85rem; color:var(--muted); line-height:1.65; }
+    .service-link { display:inline-flex;align-items:center;gap:5px;margin-top:16px;font-size:.8rem;font-weight:600;color:var(--p2);text-decoration:none;transition:gap .15s; }
+    .service-link:hover { gap:9px; }
+
+    /* ══ PORTFOLIO ══ */
+    #portfolio { background:var(--white); }
+    .portfolio-tabs { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:34px; }
+    .tab-btn { padding:7px 17px;border-radius:100px;border:1.5px solid var(--line);background:var(--white);font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s; }
+    .tab-btn.active,.tab-btn:hover { background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;border-color:transparent; }
+    .portfolio-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1200px;margin:0 auto; }
+    .portfolio-item { border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--p1),var(--p2));aspect-ratio:16/9;position:relative;cursor:pointer;transition:transform .22s; }
+    .portfolio-item:hover { transform:scale(1.025); }
+    .portfolio-overlay { position:absolute;inset:0;background:rgba(0,0,0,.36);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .22s;color:#fff; }
+    .portfolio-item:hover .portfolio-overlay { opacity:1; }
+    .portfolio-overlay svg { width:42px;margin-bottom:8px; }
+    .portfolio-overlay span { font-size:.82rem;font-weight:600; }
+    .portfolio-label { position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,.13);backdrop-filter:blur(8px);border-radius:7px;padding:4px 10px;font-size:.68rem;font-weight:600;color:#fff; }
+
+    /* ══ TESTIMONIALS ══ */
+    #testimonials { background:var(--white); }
+    .testimonials-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1200px;margin:0 auto; }
+    .testimonial-card { background:var(--white);border:1px solid var(--line);border-radius:16px;padding:26px;transition:transform .22s,box-shadow .22s; }
+    .testimonial-card:hover { transform:translateY(-4px);box-shadow:0 16px 42px rgba(91,33,182,.08); }
+    .stars { color:var(--p3);margin-bottom:12px;font-size:.92rem;letter-spacing:2px; }
+    .testimonial-card blockquote { font-size:.86rem;line-height:1.72;color:var(--dark);font-style:italic;margin-bottom:18px; }
+    .testimonial-author { display:flex;align-items:center;gap:10px; }
+    .avatar { width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p3));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.82rem;flex-shrink:0; }
+    .author-info strong { display:block;font-size:.83rem;font-weight:700;color:var(--dark); }
+    .author-info span { font-size:.74rem;color:var(--muted); }
+
+    /* ══ FAQ ══ */
+    #faq { background:var(--bg2); }
+    .faq-inner { max-width:720px;margin:0 auto; }
+    .faq-item { background:var(--white);border:1px solid var(--line);border-radius:12px;margin-bottom:9px;overflow:hidden;transition:border-color .18s; }
+    .faq-item.open { border-color:rgba(124,58,237,.28); }
+    .faq-q { display:flex;align-items:center;justify-content:space-between;padding:18px 20px;cursor:pointer;font-weight:600;font-size:.88rem;color:var(--dark);gap:14px; }
+    .faq-q .icon { width:25px;height:25px;border-radius:7px;background:var(--bg3);color:var(--p2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;font-weight:700;transition:transform .26s,background .18s; }
+    .faq-item.open .faq-q .icon { transform:rotate(45deg);background:var(--p2);color:#fff; }
+    .faq-a { max-height:0;overflow:hidden;transition:max-height .36s ease;font-size:.85rem;color:var(--muted);line-height:1.72; }
+    .faq-a-inner { padding:0 20px 16px; }
+    .faq-item.open .faq-a { max-height:200px; }
+
+    /* ══ CTA ══ */
+    #contact { background:linear-gradient(135deg,var(--p1),var(--p2));padding:92px 5%;text-align:center;position:relative;overflow:hidden; }
+    #contact::before { content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='70' height='70' viewBox='0 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.03'%3E%3Ccircle cx='35' cy='35' r='35'/%3E%3C/g%3E%3C/svg%3E") repeat; }
+    .cta-inner { position:relative;max-width:560px;margin:0 auto; }
+    #contact h2 { font-size:clamp(1.85rem,4vw,3rem);font-weight:800;color:#fff;margin-bottom:13px;letter-spacing:-.04em; }
+    #contact p { color:rgba(255,255,255,.76);font-size:.96rem;line-height:1.72;margin-bottom:32px; }
+    .cta-form { display:flex;gap:10px;max-width:440px;margin:0 auto; }
+    .cta-form input { flex:1;padding:13px 18px;border-radius:100px;border:1px solid rgba(255,255,255,.22);outline:none;background:rgba(255,255,255,.12);color:#fff;font-family:'Inter',sans-serif;font-size:.88rem;backdrop-filter:blur(8px); }
+    .cta-form input::placeholder { color:rgba(255,255,255,.52); }
+    .cta-form button { padding:13px 24px;background:#fff;color:var(--p1);border:none;border-radius:100px;font-family:'Inter',sans-serif;font-weight:700;font-size:.86rem;cursor:pointer;white-space:nowrap;transition:transform .15s; }
+    .cta-form button:hover { transform:scale(1.04); }
+
+    /* ══ FOOTER ══ */
+    footer { background:var(--dark);color:rgba(255,255,255,.52);padding:54px 5% 26px; }
+    .footer-grid { max-width:1200px;margin:0 auto 42px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:38px; }
+    .footer-brand p { font-size:.84rem;line-height:1.72;margin-top:13px;color:rgba(255,255,255,.38);max-width:245px; }
+    .footer-socials { display:flex;gap:9px;margin-top:16px; }
+    .footer-socials a { width:33px;height:33px;border-radius:8px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.48);text-decoration:none;font-size:.74rem;font-weight:700;transition:background .15s,color .15s; }
+    .footer-socials a:hover { background:var(--p2);color:#fff; }
+    .footer-col h4 { font-size:.76rem;font-weight:700;color:#fff;margin-bottom:13px;letter-spacing:.07em;text-transform:uppercase; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:9px; }
+    .footer-col ul li a { color:rgba(255,255,255,.45);text-decoration:none;font-size:.84rem;transition:color .15s; }
+    .footer-col ul li a:hover { color:var(--p4); }
+    .footer-bottom { max-width:1200px;margin:0 auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:center;font-size:.74rem;color:rgba(255,255,255,.24); }
+    .footer-bottom .accent { color:var(--p4); }
+
+    /* ══ ANIMATIONS ══ */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(26px); transition:opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .no-js .reveal { opacity:1; transform:none; }
+
+    /* ══ RESPONSIVE ══ */
+    @media(max-width:1000px){
+      .hero-inner { grid-template-columns:1fr; }
+      .hero-visual { max-width:560px;margin:0 auto; }
+      .about-intro-inner { grid-template-columns:1fr; }
+      .about-stats-grid { grid-template-columns:1fr 1fr; }
+      .services-grid { grid-template-columns:1fr 1fr; }
+      .portfolio-grid { grid-template-columns:1fr 1fr; }
+      .testimonials-grid { grid-template-columns:1fr; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+    }
+    @media(max-width:620px){
+      .services-grid { grid-template-columns:1fr; }
+      .portfolio-grid { grid-template-columns:1fr; }
+      .cta-form { flex-direction:column; }
+      .footer-grid { grid-template-columns:1fr; }
+      .footer-bottom { flex-direction:column;gap:6px;text-align:center; }
+    }
+
+    /* ══ VIDEO MARQUEE ══ */
+    .marquee-section { padding:88px 0; background:var(--white); overflow:hidden; position:relative; }
+    .marquee-section-head { text-align:center; padding:0 5% 52px; }
+    .marquee-section-head .section-label { display:block; margin-bottom:10px; }
+    .marquee-section-head p { color:var(--muted); font-size:.97rem; line-height:1.7; max-width:480px; margin:10px auto 0; }
+    .marquee-track-outer { overflow:hidden; position:relative; }
+    .marquee-track-outer::before,.marquee-track-outer::after { content:''; position:absolute; top:0; bottom:0; width:180px; z-index:3; pointer-events:none; }
+    .marquee-track-outer::before { left:0; background:linear-gradient(to right, #ffffff 0%, transparent 100%); }
+    .marquee-track-outer::after { right:0; background:linear-gradient(to left, #ffffff 0%, transparent 100%); }
+    .marquee-row { display:flex; gap:18px; width:max-content; padding:10px 0; }
+    .marquee-row + .marquee-row { margin-top:2px; }
+    .mq-left-1 { animation:mqLeft 40s linear infinite; }
+    .mq-right-1 { animation:mqRight 34s linear infinite; }
+    .mq-left-2 { animation:mqLeft 48s linear infinite; }
+    .marquee-track-outer:hover .marquee-row { animation-play-state:paused; }
+    @keyframes mqLeft { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    @keyframes mqRight { 0%{transform:translateX(-50%)} 100%{transform:translateX(0)} }
+    .vc { flex-shrink:0; width:340px; border-radius:16px; overflow:hidden; position:relative; cursor:pointer; background:var(--white); border:1px solid var(--line); box-shadow:0 2px 12px rgba(74,0,180,.06), 0 1px 3px rgba(0,0,0,.04); transition:transform .32s cubic-bezier(.22,.68,0,1.2), box-shadow .32s ease; will-change:transform; }
+    .vc:hover { transform:translateY(-7px) scale(1.02); box-shadow:0 20px 52px rgba(74,0,180,.13), 0 4px 16px rgba(0,0,0,.06); border-color:rgba(123,47,190,.2); z-index:5; }
+    .vc-thumb { width:100%; aspect-ratio:16/9; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .vc-thumb-bg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:3.2rem; transition:transform .4s ease; }
+    .vc:hover .vc-thumb-bg { transform:scale(1.04); }
+    .vc--a .vc-thumb-bg { background:linear-gradient(135deg,#f97316,#fb923c); }
+    .vc--b .vc-thumb-bg { background:linear-gradient(135deg,#1d4ed8,#60a5fa); }
+    .vc--c .vc-thumb-bg { background:linear-gradient(135deg,#15803d,#4ade80); }
+    .vc--d .vc-thumb-bg { background:linear-gradient(135deg,#7c3aed,#c084fc); }
+    .vc--e .vc-thumb-bg { background:linear-gradient(135deg,#be185d,#f472b6); }
+    .vc--f .vc-thumb-bg { background:linear-gradient(135deg,#0f766e,#2dd4bf); }
+    .vc--g .vc-thumb-bg { background:linear-gradient(135deg,#b45309,#fbbf24); }
+    .vc--h .vc-thumb-bg { background:linear-gradient(135deg,#0e7490,#38bdf8); }
+    .vc--i .vc-thumb-bg { background:linear-gradient(135deg,#6d28d9,#a78bfa); }
+    .vc--j .vc-thumb-bg { background:linear-gradient(135deg,#065f46,#34d399); }
+    .vc-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(10,5,30,.18); transition:background .22s; }
+    .vc:hover .vc-play { background:rgba(10,5,30,.32); }
+    .vc-play-btn { width:54px; height:54px; border-radius:50%; background:rgba(255,255,255,.96); box-shadow:0 4px 20px rgba(0,0,0,.22); display:flex; align-items:center; justify-content:center; transition:transform .28s cubic-bezier(.22,.68,0,1.4), box-shadow .28s; }
+    .vc:hover .vc-play-btn { transform:scale(1.18); box-shadow:0 10px 32px rgba(74,0,180,.3); }
+    .vc-play-btn svg { width:20px; margin-left:3px; }
+    .vc-overlay { position:absolute; bottom:0; left:0; right:0; padding:40px 12px 11px; background:linear-gradient(to top, rgba(0,0,0,.68) 0%, rgba(0,0,0,.0) 100%); display:flex; align-items:flex-end; gap:8px; }
+    .vc-tag { font-size:.65rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; padding:3px 10px; border-radius:5px; color:#fff; line-height:1.5; flex-shrink:0; }
+    .vc-tag--animated { background:#7c3aed; }
+    .vc-tag--saas { background:#0369a1; }
+    .vc-tag--motion { background:#c2410c; }
+    .vc-tag--demo { background:#059669; }
+    .vc-tag--2d { background:#be185d; }
+    .vc-tag--live { background:#1d4ed8; }
+    .vc-label { font-size:.88rem; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    /* ══ VIDEO LIGHTBOX MODAL ══ */
+    .vmodal-overlay { position:fixed; inset:0; z-index:9999; background:rgba(10,5,30,.88); backdrop-filter:blur(12px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .25s ease; }
+    .vmodal-overlay.active { opacity:1; pointer-events:all; }
+    .vmodal-box { position:relative; width:90%; max-width:900px; border-radius:18px; overflow:hidden; background:#000; box-shadow:0 32px 80px rgba(0,0,0,.7); transform:scale(.92) translateY(20px); transition:transform .3s cubic-bezier(.22,.68,0,1.2); }
+    .vmodal-overlay.active .vmodal-box { transform:scale(1) translateY(0); }
+    .vmodal-ratio { position:relative; aspect-ratio:16/9; width:100%; background:#000; }
+    .vmodal-ratio iframe,.vmodal-ratio video { position:absolute; inset:0; width:100%; height:100%; border:none; }
+    .vmodal-close { position:absolute; top:-48px; right:0; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22); color:#fff; font-size:1.2rem; font-weight:300; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .18s, transform .18s; line-height:1; }
+    .vmodal-close:hover { background:rgba(255,255,255,.22); transform:scale(1.1); }
+
+    /* ══ OUR SERVICES PORTFOLIO ══ */
+    .our-services { padding:96px 5%; background:var(--bg2); }
+    .our-services-head { text-align:center; margin-bottom:44px; }
+    .our-services-head h2 { font-size:clamp(2rem,4vw,3rem); font-weight:800; letter-spacing:-.04em; color:var(--dark); margin-bottom:0; }
+    .our-services-head h2 span { background:none; -webkit-background-clip:unset; -webkit-text-fill-color:var(--p2); color:var(--p2); }
+    .os-tabs { display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin-bottom:48px; background:var(--white); border:1px solid var(--line); border-radius:100px; padding:6px; max-width:780px; margin-left:auto; margin-right:auto; }
+    .os-tab { padding:9px 22px; border-radius:100px; border:none; background:transparent; color:var(--muted); font-family:'Inter',sans-serif; font-size:.84rem; font-weight:500; cursor:pointer; transition:background .18s, color .18s; white-space:nowrap; }
+    .os-tab:hover { background:var(--bg3); color:var(--p2); }
+    .os-tab.active { background:linear-gradient(135deg, var(--p1), var(--p2)); color:#fff; font-weight:600; box-shadow:0 4px 14px rgba(74,0,180,.28); }
+    .os-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1200px; margin:0 auto; }
+    .pc { border-radius:18px; overflow:hidden; cursor:pointer; position:relative; background:#111; transition:transform .3s cubic-bezier(.22,.68,0,1.2), box-shadow .3s; display:none; }
+    .pc.visible { display:block; }
+    .pc:hover { transform:translateY(-6px) scale(1.015); box-shadow:0 24px 60px rgba(0,0,0,.5); }
+    .pc-thumb { width:100%; aspect-ratio:16/10; position:relative; overflow:hidden; }
+    .pc-thumb-bg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:4rem; transition:transform .4s ease; }
+    .pc:hover .pc-thumb-bg { transform:scale(1.05); }
+    .pc--saas1 .pc-thumb-bg { background:linear-gradient(135deg,#e85d04,#f48c06); }
+    .pc--saas2 .pc-thumb-bg { background:linear-gradient(135deg,#7209b7,#b5179e); }
+    .pc--saas3 .pc-thumb-bg { background:linear-gradient(135deg,#0d1b2a,#415a77); }
+    .pc--demo1 .pc-thumb-bg { background:linear-gradient(135deg,#f77f00,#fcbf49); }
+    .pc--demo2 .pc-thumb-bg { background:linear-gradient(135deg,#1b4332,#40916c); }
+    .pc--demo3 .pc-thumb-bg { background:linear-gradient(135deg,#03045e,#0096c7); }
+    .pc--2d1 .pc-thumb-bg { background:linear-gradient(135deg,#370617,#e85d04); }
+    .pc--2d2 .pc-thumb-bg { background:linear-gradient(135deg,#10002b,#7b2d8b); }
+    .pc--2d3 .pc-thumb-bg { background:linear-gradient(135deg,#1a1a2e,#16213e); }
+    .pc--motion1 .pc-thumb-bg { background:linear-gradient(135deg,#0f3460,#533483); }
+    .pc--motion2 .pc-thumb-bg { background:linear-gradient(135deg,#2d6a4f,#95d5b2); }
+    .pc--motion3 .pc-thumb-bg { background:linear-gradient(135deg,#3d405b,#e07a5f); }
+    .pc-type { position:absolute; top:12px; left:12px; z-index:2; font-size:.65rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; padding:4px 10px; border-radius:6px; color:#fff; }
+    .pct--saas { background:#7c3aed; }
+    .pct--demo { background:#ea580c; }
+    .pct--2d { background:#be185d; }
+    .pct--motion { background:#0369a1; }
+    .pc-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.0); transition:background .22s; z-index:2; }
+    .pc:hover .pc-play { background:rgba(0,0,0,.25); }
+    .pc-play-btn { width:58px; height:58px; border-radius:50%; background:rgba(255,255,255,.95); box-shadow:0 6px 24px rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center; opacity:0; transform:scale(.75); transition:opacity .22s, transform .28s cubic-bezier(.22,.68,0,1.4); }
+    .pc:hover .pc-play-btn { opacity:1; transform:scale(1); }
+    .pc-play-btn svg { width:22px; margin-left:3px; }
+    .pc-bar { background:var(--dark); padding:14px 18px; display:flex; align-items:center; justify-content:center; }
+    .pc-bar-name { font-size:.96rem; font-weight:700; color:#fff; letter-spacing:-.01em; }
+    .os-load-more { display:flex; justify-content:center; margin-top:44px; }
+    .os-load-more button { padding:13px 36px; border:1.5px solid var(--line); border-radius:100px; background:transparent; color:var(--muted); font-family:'Inter',sans-serif; font-size:.88rem; font-weight:600; cursor:pointer; transition:border-color .18s, color .18s, background .18s; }
+    .os-load-more button:hover { border-color:var(--p2); color:var(--p2); background:var(--bg3); }
+    @media(max-width:900px) { .os-grid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:580px) { .os-grid { grid-template-columns:1fr; } }
+
+    /* ══ PRODUCTION PROCESS ══ */
+    #process { background: var(--bg2); padding: 96px 5%; }
+    .prod-process-head { text-align: center; margin-bottom: 56px; }
+    .prod-process-head .proc-eyebrow { display: inline-block; font-size: .67rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--p2); margin-bottom: 12px; }
+    .prod-process-head h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.1; color: #111111; }
+    .prod-process-head h2 .proc-word-normal { color: #111111; -webkit-text-fill-color: #111111; }
+    .prod-process-head h2 .proc-word-purple { background: linear-gradient(135deg, var(--p1) 0%, var(--p2) 50%, var(--p3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .prod-process-head p { font-size: .96rem; color: var(--muted); margin-top: 12px; max-width: 440px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+    .prod-process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; }
+    .prod-step-card { background: var(--dark); border-radius: 20px; padding: 40px 28px 36px; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid rgba(255,255,255,.06); position: relative; overflow: hidden; transition: transform .28s cubic-bezier(.22,.68,0,1.2), box-shadow .28s ease, border-color .28s ease; }
+    .prod-step-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(123,47,190,.22) 0%, transparent 65%); pointer-events: none; opacity: 0; transition: opacity .3s; }
+    .prod-step-card:hover { transform: translateY(-7px); box-shadow: 0 28px 60px rgba(74,0,180,.2), 0 0 0 1px rgba(123,47,190,.3); border-color: rgba(123,47,190,.38); }
+    .prod-step-card:hover::before { opacity: 1; }
+    .prod-step-num { position: absolute; top: 16px; right: 18px; font-size: .64rem; font-weight: 800; letter-spacing: .07em; color: rgba(192,132,252,.3); }
+    .prod-step-icon { width: 72px; height: 72px; border-radius: 18px; background: rgba(123,47,190,.18); border: 1.5px solid rgba(192,132,252,.22); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; flex-shrink: 0; position: relative; z-index: 1; transition: background .28s, border-color .28s, transform .28s; }
+    .prod-step-card:hover .prod-step-icon { background: rgba(123,47,190,.32); border-color: rgba(192,132,252,.55); transform: scale(1.1); }
+    .prod-step-icon svg { width: 32px; height: 32px; color: var(--p4); }
+    .prod-step-card h3 { font-size: 1rem; font-weight: 700; color: #ffffff; margin-bottom: 11px; letter-spacing: -.01em; position: relative; z-index: 1; }
+    .prod-step-card p { font-size: .83rem; color: rgba(255,255,255,.55); line-height: 1.74; position: relative; z-index: 1; }
+    @media(max-width:900px) { .prod-process-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:560px) { .prod-process-grid { grid-template-columns:1fr; } .prod-step-card { padding:32px 22px 28px; } }
+
+    /* ══ INLINE SVG LOGO ══ */
+    .logo-svg text { font-family: 'Inter', sans-serif; }
+  </style>
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="top-bar-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
+      <span>No Hidden Costs</span>
+    </div>
+    <div class="top-bar-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+      <span>Fast Turnaround Solution</span>
+    </div>
+    <div class="top-bar-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span>Global Clients - USA, UK, AUS + more</span>
+    </div>
+  </div>
+  <div class="top-bar-right">
+    <a href="tel:+13214757379" class="top-bar-contact">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      <span>+1 (321) 475-7379</span>
+    </a>
+    <a href="mailto:hello@motiongraphix.io" class="top-bar-contact">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      <span>hello@motiongraphix.io</span>
+    </a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="website-final.html" class="nav-logo">
+    <svg class="logo-svg" width="160" height="38" viewBox="0 0 160 38" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A00B4"/><stop offset="100%" stop-color="#9B3DCA"/></linearGradient></defs>
+      <rect x="0" y="3" width="32" height="32" rx="9" fill="url(#lg1)"/>
+      <polygon points="12,11 12,27 25,19" fill="white"/>
+      <text x="40" y="16" font-size="11.5" font-weight="800" fill="#1A0A2E" letter-spacing="-0.3">MOTION</text>
+      <text x="40" y="31" font-size="10" font-weight="500" fill="#7B2FBE" letter-spacing="2.5">GRAPHIX</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="about-section.html">About</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="pricing-section.html">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Call</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="about-section.html" onclick="toggleMenu()">About</a>
+  <a href="#portfolio" onclick="toggleMenu()">Portfolio</a>
+  <a href="pricing-section.html" onclick="toggleMenu()">Pricing</a>
+  <a href="#contact" onclick="toggleMenu()" style="font-weight:700;color:var(--p2);">Book a Call →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow">SaaS Explainer Video Creator</p>
+      <h1><span class="purple">Motion Graphics</span> Videos</h1>
+      <ul class="hero-list">
+        <li>Product DEMO Videos</li>
+        <li>SaaS Explainer Videos</li>
+        <li>Motion Graphics Videos</li>
+        <li>2D Explainer Videos</li>
+        <li>Walkthrough Videos</li>
+        <li>UI Animations</li>
+      </ul>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">Get Free Sample</a>
+        <a href="#contact" class="btn-outline">Contact</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-video-wrap">
+        <video id="heroVideo" src="" poster="" preload="metadata" playsinline></video>
+        <div class="video-overlay" id="videoOverlay" onclick="toggleVideo()">
+          <div class="video-play-ring">
+            <svg viewBox="0 0 24 24" fill="white" width="27"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="video-overlay-text">
+            <strong>Motion Graphics Showreel</strong>
+            <span>Click to watch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-intro-section" id="about">
+  <div class="about-intro-inner">
+    <div class="about-intro-text reveal">
+      <span class="section-label">Who We Are</span>
+      <h2 class="section-title">Helping Startups &amp; Small Businesses Bring Big Ideas to Life</h2>
+      <p>At Motion Graphix, we help startups and small businesses transform their ideas into captivating, story-driven videos that spark attention, build trust, and drive action. We don't just animate—we simplify the complex, elevate your brand, and make your message impossible to ignore.</p>
+      <p style="margin-top:15px;">Whether it's a sleek SaaS explainer, a scroll-stopping product demo, or dynamic 2D motion graphics, every frame we craft is designed to connect. Because great ideas deserve more than just words—they deserve visuals that move people.</p>
+      <div class="hero-btns" style="margin-top:32px;">
+        <a href="#portfolio" class="btn-primary">See Our Work</a>
+        <a href="#contact" class="btn-outline">
+          <svg width="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Play Showreel
+        </a>
+      </div>
+    </div>
+    <div class="about-stats-grid reveal">
+      <div class="about-stat"><div class="big-num">1,250+</div><div class="small-label">Videos Produced</div></div>
+      <div class="about-stat"><div class="big-num">560+</div><div class="small-label">Brands Served</div></div>
+      <div class="about-stat"><div class="big-num">98%</div><div class="small-label">Satisfaction Rate</div></div>
+      <div class="about-stat"><div class="big-num">7–14</div><div class="small-label">Days Delivery</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO MARQUEE -->
+<section class="marquee-section">
+  <div class="marquee-section-head reveal">
+    <span class="section-label">Our Latest Work</span>
+    <h2 class="section-title">See What We've Built</h2>
+    <p>Over 1,250 videos delivered for SaaS, AI &amp; B2B teams worldwide. Click any card to watch.</p>
+  </div>
+  <div class="marquee-track-outer">
+    <div class="marquee-row mq-left-1">
+      <div class="vc vc--a" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🧑‍💼</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">SaaS Explainer Video</span></div></div></div>
+      <div class="vc vc--b" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🖥️</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--saas">SaaS</span><span class="vc-label">Product Demo Video</span></div></div></div>
+      <div class="vc vc--c" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🤝</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">2D Explainer Video</span></div></div></div>
+      <div class="vc vc--d" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">⚡</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--motion">Motion</span><span class="vc-label">Motion Graphics Ad</span></div></div></div>
+      <div class="vc vc--e" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">📱</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--demo">Demo</span><span class="vc-label">App Promo Video</span></div></div></div>
+      <div class="vc vc--f" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🎨</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--2d">2D</span><span class="vc-label">Character Animation</span></div></div></div>
+      <div class="vc vc--g" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🎬</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--live">Live Action</span><span class="vc-label">Corporate Film</span></div></div></div>
+      <!-- Duplicates for seamless loop -->
+      <div class="vc vc--a" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🧑‍💼</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">SaaS Explainer Video</span></div></div></div>
+      <div class="vc vc--b" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🖥️</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--saas">SaaS</span><span class="vc-label">Product Demo Video</span></div></div></div>
+      <div class="vc vc--c" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🤝</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">2D Explainer Video</span></div></div></div>
+      <div class="vc vc--d" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">⚡</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--motion">Motion</span><span class="vc-label">Motion Graphics Ad</span></div></div></div>
+      <div class="vc vc--g" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🎬</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--live">Live Action</span><span class="vc-label">Corporate Film</span></div></div></div>
+    </div>
+    <div class="marquee-row mq-right-1">
+      <div class="vc vc--h" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">💡</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--saas">SaaS</span><span class="vc-label">UI Walkthrough</span></div></div></div>
+      <div class="vc vc--i" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🤖</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">AI Tool Explainer</span></div></div></div>
+      <div class="vc vc--j" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">📊</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--demo">Demo</span><span class="vc-label">B2B Platform Demo</span></div></div></div>
+      <div class="vc vc--a" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">✍️</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--2d">2D</span><span class="vc-label">Whiteboard Video</span></div></div></div>
+      <div class="vc vc--b" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">📢</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--motion">Motion</span><span class="vc-label">Social Media Ad</span></div></div></div>
+      <div class="vc vc--c" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">👤</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--live">Live Action</span><span class="vc-label">Testimonial Video</span></div></div></div>
+      <div class="vc vc--d" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🚀</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--saas">SaaS</span><span class="vc-label">Onboarding Video</span></div></div></div>
+      <!-- Duplicates -->
+      <div class="vc vc--h" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">💡</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--saas">SaaS</span><span class="vc-label">UI Walkthrough</span></div></div></div>
+      <div class="vc vc--i" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🤖</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">AI Tool Explainer</span></div></div></div>
+      <div class="vc vc--d" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🚀</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--saas">SaaS</span><span class="vc-label">Onboarding Video</span></div></div></div>
+    </div>
+    <div class="marquee-row mq-left-2">
+      <div class="vc vc--e" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🛒</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">E-commerce Demo</span></div></div></div>
+      <div class="vc vc--f" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🏥</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--demo">Demo</span><span class="vc-label">HealthTech Explainer</span></div></div></div>
+      <div class="vc vc--g" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">💼</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--2d">2D</span><span class="vc-label">Startup Pitch Video</span></div></div></div>
+      <div class="vc vc--h" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🌍</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--motion">Motion</span><span class="vc-label">Brand Film</span></div></div></div>
+      <div class="vc vc--i" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🎯</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--live">Live Action</span><span class="vc-label">Product Walkthrough</span></div></div></div>
+      <div class="vc vc--j" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">✨</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--saas">SaaS</span><span class="vc-label">UI Animation Reel</span></div></div></div>
+      <div class="vc vc--a" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">📚</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">Training Video</span></div></div></div>
+      <!-- Duplicates -->
+      <div class="vc vc--e" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🛒</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--animated">Animated</span><span class="vc-label">E-commerce Demo</span></div></div></div>
+      <div class="vc vc--h" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">🌍</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--motion">Motion</span><span class="vc-label">Brand Film</span></div></div></div>
+      <div class="vc vc--j" onclick="openVideoModal(this)" data-video=""><div class="vc-thumb"><div class="vc-thumb-bg">✨</div><div class="vc-play"><div class="vc-play-btn"><svg viewBox="0 0 24 24" fill="var(--p1)"><path d="M8 5v14l11-7z"/></svg></div></div><div class="vc-overlay"><span class="vc-tag vc-tag--saas">SaaS</span><span class="vc-label">UI Animation Reel</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR SERVICES PORTFOLIO -->
+<section class="our-services" id="services">
+  <div class="our-services-head reveal">
+    <h2><span>Our</span> Services</h2>
+  </div>
+  <div class="os-tabs reveal">
+    <button class="os-tab active" onclick="osFilter(this,'all')">All</button>
+    <button class="os-tab" onclick="osFilter(this,'saas')">SaaS Explainer Videos</button>
+    <button class="os-tab" onclick="osFilter(this,'demo')">DEMO Videos</button>
+    <button class="os-tab" onclick="osFilter(this,'2d')">2D Explainer Videos</button>
+    <button class="os-tab" onclick="osFilter(this,'motion')">Motion Graphics</button>
+  </div>
+  <div class="os-grid reveal" id="osGrid">
+    <div class="pc pc--saas1 visible" data-cat="saas" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">🧑‍💼</div><span class="pc-type pct--saas">SaaS Explainer</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">Codient</span></div></div>
+    <div class="pc pc--demo1 visible" data-cat="demo" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">📋</div><span class="pc-type pct--demo">Product DEMO</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">Multiplier</span></div></div>
+    <div class="pc pc--saas2 visible" data-cat="saas" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">♿</div><span class="pc-type pct--saas">SaaS Explainer</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">UserWay</span></div></div>
+    <div class="pc pc--2d1 visible" data-cat="2d" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">📧</div><span class="pc-type pct--2d">2D Explainer</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">SparkLoop</span></div></div>
+    <div class="pc pc--demo2 visible" data-cat="demo" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">🤖</div><span class="pc-type pct--demo">Product DEMO</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">LangFlow</span></div></div>
+    <div class="pc pc--saas3 visible" data-cat="saas" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">📅</div><span class="pc-type pct--saas">SaaS Explainer</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">Fully Booked</span></div></div>
+    <div class="pc pc--2d2 visible" data-cat="2d" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">🎓</div><span class="pc-type pct--2d">2D Explainer</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">Tutor Management</span></div></div>
+    <div class="pc pc--motion1 visible" data-cat="motion" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">📬</div><span class="pc-type pct--motion">Motion Graphics</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">Drop Contact</span></div></div>
+    <div class="pc pc--demo3 visible" data-cat="demo" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">💬</div><span class="pc-type pct--demo">Product DEMO</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">Crono</span></div></div>
+    <div class="pc pc--motion2 visible" data-cat="motion" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">⚡</div><span class="pc-type pct--motion">Motion Graphics</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">NUMI</span></div></div>
+    <div class="pc pc--2d3 visible" data-cat="2d" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">📊</div><span class="pc-type pct--2d">2D Explainer</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">Base Dash</span></div></div>
+    <div class="pc pc--motion3 visible" data-cat="motion" data-video="" onclick="openVideoModal(this)"><div class="pc-thumb"><div class="pc-thumb-bg">🌐</div><span class="pc-type pct--motion">Motion Graphics</span><div class="pc-play"><div class="pc-play-btn"><svg viewBox="0 0 24 24" fill="#4A00B4"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="pc-bar"><span class="pc-bar-name">Vultron</span></div></div>
+  </div>
+  <div class="os-load-more">
+    <button onclick="alert('Connect this to show more projects')">View All Work →</button>
+  </div>
+</section>
+
+<!-- PRODUCTION PROCESS -->
+<section id="process">
+  <div class="prod-process-head reveal">
+    <span class="proc-eyebrow">How It Works</span>
+    <h2><span class="proc-word-normal">Our Production</span><span class="proc-word-purple"> Process</span></h2>
+    <p>Every video we make follows the same battle-tested 9-step workflow — ensuring quality, speed, and zero surprises.</p>
+  </div>
+  <div class="prod-process-grid">
+    <div class="prod-step-card reveal"><span class="prod-step-num">01</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 10.8 19.79 19.79 0 01.88 2.18 2 2 0 012.86.01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l.91-1.02a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><h3>Briefing</h3><p>We will make your requirements outline and discuss the animation style, mission, and length of your explainer video.</p></div>
+    <div class="prod-step-card reveal"><span class="prod-step-num">02</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><h3>Script</h3><p>Our team will create a script that will enable you to tell a compelling story about your business, product or service.</p></div>
+    <div class="prod-step-card reveal"><span class="prod-step-num">03</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><rect x="5" y="6" width="6" height="5" rx="1"/><rect x="13" y="6" width="6" height="5" rx="1"/><line x1="5" y1="13" x2="11" y2="13"/><line x1="13" y1="13" x2="19" y2="13"/><polyline points="8 21 12 17 16 21"/></svg></div><h3>Storyboard</h3><p>At this stage, our digital artists will prepare a simplified visual representation of how the final explainer video will unfold.</p></div>
+    <div class="prod-step-card reveal"><span class="prod-step-num">04</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>Illustrations</h3><p>Our graphic designers will develop a unique visual style and convert the storyboard into beautiful illustrations based on your brand theme.</p></div>
+    <div class="prod-step-card reveal"><span class="prod-step-num">05</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div><h3>Voice Over</h3><p>We collaborate with talented voice artists that can provide a powerful voice for your video. Choose any voice, gender, and language.</p></div>
+    <div class="prod-step-card reveal"><span class="prod-step-num">06</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="16" rx="2"/><path d="M10 9l5 3-5 3V9z" fill="currentColor" stroke="none"/><line x1="7" y1="21" x2="17" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/></svg></div><h3>Animation</h3><p>We breathe life into static illustrations, bringing together the script, illustrations, and voiceover into an exciting visual story.</p></div>
+    <div class="prod-step-card reveal"><span class="prod-step-num">07</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h3>Background Music</h3><p>We purchase music from any paid music website based on the video type and style, mix it with the voice over and add to the video.</p></div>
+    <div class="prod-step-card reveal"><span class="prod-step-num">08</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><path d="M3 20h18"/></svg></div><h3>Sound Effects</h3><p>At this stage we add sound effects / SFX on different actions in the video, to enhance video quality and grab audience attention.</p></div>
+    <div class="prod-step-card reveal"><span class="prod-step-num">09</span><div class="prod-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/><path d="M3 17v3a1 1 0 001 1h16a1 1 0 001-1v-3"/></svg></div><h3>Export</h3><p>We export final video in MP4 format with full HD resolution. We also provide a vertical version for social media platforms.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="background:var(--bg2);">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-head reveal" style="text-align:center;">
+      <span class="section-label">Client Love</span>
+      <h2 class="section-title">Why Founders Stick With Us</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal"><div class="stars">★★★★★</div><blockquote>"We had the product. A+ Motion gave it life. The video is clean, sharp, and makes our pitch 10x easier. Delivered ahead of schedule."</blockquote><div class="testimonial-author"><div class="avatar">DM</div><div class="author-info"><strong>David Manniche</strong><span>Founder at Juris AI</span></div></div></div>
+      <div class="testimonial-card reveal"><div class="stars">★★★★★</div><blockquote>"Incredible team. They understood our vision from day one, communicated clearly, and delivered exactly what we needed to stand out."</blockquote><div class="testimonial-author"><div class="avatar">LL</div><div class="author-info"><strong>Luka Lomsadze</strong><span>Founder at Focus Verify</span></div></div></div>
+      <div class="testimonial-card reveal"><div class="stars">★★★★★</div><blockquote>"They got our SaaS instantly. One briefing, smooth process, quick revisions, and the final video delivered exactly on time. Truly professional."</blockquote><div class="testimonial-author"><div class="avatar">LG</div><div class="author-info"><strong>Lasha Gogolashvili</strong><span>Growth @ Solutions2Share</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-head reveal" style="text-align:center;">
+      <span class="section-label">FAQ</span>
+      <h2 class="section-title">Got Questions?<br>We've Got Answers.</h2>
+    </div>
+    <div class="faq-inner">
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">What types of videos do you produce?<span class="icon">+</span></div><div class="faq-a"><div class="faq-a-inner">We produce SaaS explainer videos, product demo videos, 2D explainer videos, motion graphics, UI animations, walkthrough videos, whiteboard videos, logo animations, and social media video ads.</div></div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">How long does production take?<span class="icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Most projects are delivered within 7–14 days. Longer videos may take 15–20 days. Need it faster? We've sprinted before — just let us know.</div></div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">How much does a video cost?<span class="icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Pricing depends on the style, length, and complexity. Book a free call and we'll give you a transparent estimate within 24 hours — no hidden costs.</div></div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">How many revisions do you offer?<span class="icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Unlimited revisions. We share storyboards and style frames early so there are never any big surprises at the end.</div></div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">What file formats do you deliver?<span class="icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Full HD or 4K in MP4, AVI, MOV, WEBM, WMV, GIF, Lottie/JSON, and HTML. We also include a vertical version for social platforms.</div></div></div>
+      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)">Do you work with early-stage startups?<span class="icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Absolutely. Solo founders, early-stage startups, and funded growth teams alike. If your message matters — we're in.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact">
+  <div class="cta-inner">
+    <h2>Ready to Make Your Product Impossible to Ignore?</h2>
+    <p>Book a free 15-minute strategy call and we'll show you exactly how we'd approach your video — no commitment required.</p>
+    <div class="cta-form">
+      <input type="email" placeholder="Enter your email address">
+      <button onclick="handleCTA()">Book Free Call →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="website-final.html" class="nav-logo">
+        <svg width="140" height="34" viewBox="0 0 140 34" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A00B4"/><stop offset="100%" stop-color="#9B3DCA"/></linearGradient></defs>
+          <rect x="0" y="2" width="28" height="28" rx="8" fill="url(#lg2)"/>
+          <polygon points="10,9 10,23 22,16" fill="white"/>
+          <text x="35" y="14" font-family="Inter,sans-serif" font-size="10.5" font-weight="800" fill="rgba(255,255,255,0.9)" letter-spacing="-0.3">MOTION</text>
+          <text x="35" y="27" font-family="Inter,sans-serif" font-size="9" font-weight="500" fill="rgba(192,132,252,0.85)" letter-spacing="2.2">GRAPHIX</text>
+        </svg>
+      </a>
+      <p>We help SaaS, B2B &amp; AI tools get understood with motion that sells. Explainer videos, product demos, and UI animations.</p>
+      <div class="footer-socials">
+        <a href="#">in</a><a href="#">yt</a><a href="#">ig</a><a href="#">fb</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Explainer Videos</a></li>
+        <li><a href="#services">SaaS Product Demo</a></li>
+        <li><a href="#services">2D Animation</a></li>
+        <li><a href="#services">Motion Graphics</a></li>
+        <li><a href="#services">UI Animations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hello@motiongraphix.io">hello@motiongraphix.io</a></li>
+        <li><a href="tel:+13214757379">+1 (321) 475-7379</a></li>
+        <li><a href="#contact">Book a Meeting 👋</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Motion Studio. All rights reserved.</span>
+    <span>Made with <span class="accent">♥</span> for SaaS founders</span>
+  </div>
+</footer>
+
+<!-- VIDEO LIGHTBOX MODAL -->
+<div class="vmodal-overlay" id="vmodal" onclick="closeModal(event)">
+  <div class="vmodal-box">
+    <button class="vmodal-close" onclick="closeVideoModal()">✕</button>
+    <div class="vmodal-ratio" id="vmodalContent"></div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+  });
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('nav') && !e.target.closest('#mobileMenu'))
+      document.getElementById('mobileMenu').classList.remove('open');
+  });
+  const rObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); rObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(r => rObs.observe(r));
+  function toggleVideo() {
+    const v = document.getElementById('heroVideo'), o = document.getElementById('videoOverlay');
+    if (!v) return;
+    if (!v.src || v.src === window.location.href) {
+      alert('Add your video:\nFind <video> in website-final.html → set src="your-video.mp4"');
+      return;
+    }
+    if (v.paused) { v.play(); o.classList.add('hidden'); }
+    else { v.pause(); o.classList.remove('hidden'); }
+  }
+  const hv = document.getElementById('heroVideo');
+  if (hv) hv.addEventListener('ended', () => document.getElementById('videoOverlay').classList.remove('hidden'));
+  function toggleFaq(el) {
+    const item = el.parentElement, was = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!was) item.classList.add('open');
+  }
+  function osFilter(btn, cat) {
+    document.querySelectorAll('.os-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.pc').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) { card.classList.add('visible'); }
+      else { card.classList.remove('visible'); }
+    });
+  }
+  function handleCTA() {
+    const input = document.querySelector('.cta-form input');
+    if (input.value && input.value.includes('@')) {
+      alert("Thanks! We'll be in touch within 24 hours to schedule your free call.");
+      input.value = '';
+    } else {
+      input.style.borderColor = 'rgba(255,100,100,.8)';
+      setTimeout(() => input.style.borderColor = '', 1500);
+    }
+  }
+  function openVideoModal(card) {
+    const url = card.dataset.video || '';
+    const modal = document.getElementById('vmodal');
+    const box = document.getElementById('vmodalContent');
+    box.innerHTML = '';
+    if (!url) {
+      box.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#fff;font-family:Inter,sans-serif;font-size:1rem;padding:24px;text-align:center;background:#1a0a2e;">Add your video URL to the card\'s data-video attribute.<br><br>e.g. data-video="https://youtube.com/watch?v=YOUR_ID"</div>';
+    } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const match = url.match(/(?:v=|youtu\.be\/)([^&?\/]+)/);
+      const id = match ? match[1] : '';
+      box.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+    } else if (url.includes('vimeo.com')) {
+      const id = url.split('/').pop();
+      box.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1&badge=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+    } else {
+      box.innerHTML = `<video src="${url}" autoplay controls style="width:100%;height:100%;background:#000;"></video>`;
+    }
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVideoModal() {
+    const modal = document.getElementById('vmodal');
+    const box = document.getElementById('vmodalContent');
+    modal.classList.remove('active');
+    setTimeout(() => { box.innerHTML = ''; }, 280);
+    document.body.style.overflow = '';
+  }
+  function closeModal(e) {
+    if (e.target === document.getElementById('vmodal')) closeVideoModal();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideoModal(); });
+</script>
+</body>
+</html>
